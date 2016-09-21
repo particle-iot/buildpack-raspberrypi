@@ -21,7 +21,7 @@ crosstool-ng toolchain builder.
 
 **Before building this image, build or pull [buildpack-base](https://github.com/spark/buildpack-base).**
 
-**This image takes about 30 minutes to build.** Go grab a coffee :coffee:
+**This image takes about 45 minutes to build.** Go grab a coffee :coffee:
 
 ```bash
 $ export BUILDPACK_IMAGE=raspberry-pi
@@ -35,23 +35,25 @@ $ ./scripts/build-and-push
 ## Running
 
 ```bash
-$ mkdir -p ~/tmp/input && mkdir -p ~/tmp/output && mkdir -p ~/tmp/cache
+$ git clone -b feature/raspberry-pi https://github.com/spark/firmware.git
+$ mkdir -p ~/app && mkdir -p ~/output && mkdir -p ~/cache
+$ touch ~/app/application.cpp
 $ docker run --rm \
-  -v ~/tmp/input:/input \
-  -v ~/tmp/output:/output \
-  -v ~/tmp/cache:/cache \
-  -e FIRMWARE_REPO=https://github.com/spark/firmware.git#v0.5.3-rc.2 \
-  -e PLATFORM_ID=3 \
-  particle/buildpack-gcc
+  -v ~/firmware:/firmware \
+  -v ~/input:/input \
+  -v ~/output:/output \
+  -v ~/cache:/cache \
+  particle/buildpack-raspberrypi
 ```
 
-`FIRMWARE_REPO` will be fetched to cache directory provided with `-v` flag. It will also contain compilation intermediate files.
+### Firmware repository
+The Particle firmware has to be placed in `~/firmware`
 
 ### Input files
-Source files have to be placed in `~/tmp/input`
+Source files have to be placed in `~/input`
 
 ### Output files
-After build `~/tmp/output` will be propagated with:
+After build `~/output` will be propagated with:
 
 * `run.log` - `stdout` combined with `stderr`
 * `stderr.log` - contents of `stderr`, usefull to parse `gcc` errors

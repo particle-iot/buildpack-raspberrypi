@@ -7,6 +7,8 @@ COPY .config $XTOOLS_BUILD/.config
 
 # Packages used only when building this container
 ENV BUILD_PACKAGES="bzip2 xz-utils gcc g++ gperf bison flex texinfo wget help2man gawk libtool-bin automake ncurses-dev"
+# Packages used when running the package
+ENV RUN_PACKAGES="make libarchive-zip-perl"
 
 ENV BOOST_VERSION=1_59_0
 ENV BOOST_VERSION_DOT=1.59.0
@@ -19,7 +21,7 @@ ENV PATH=$PATH:$XTOOLS_HOME/arm-unknown-linux-gnueabi/bin/
 
 # Build the ARM toolchain using the crosstool-ng toolchain builder
 RUN apt-get update -q \
-      && apt-get install -qy make $BUILD_PACKAGES \
+      && apt-get install -qy $RUN_PACKAGES $BUILD_PACKAGES \
       && /bin/install-xtools \
       && /bin/build-boost \
       && apt-get remove -qy $BUILD_PACKAGES && apt-get autoremove -qy && apt-get clean && apt-get purge \
