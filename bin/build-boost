@@ -1,0 +1,26 @@
+#!/bin/bash
+# Build the boost library for ARM
+
+# Exit on error
+set -e
+# Echo commands
+set -v
+
+mkdir -p $BOOST_HOME
+cd $BOOST_HOME
+
+# Enable the toolset=gcc-arm for building boost for the Raspberry Pi
+echo "using gcc : arm : arm-unknown-linux-gnueabi-g++ ;" > user-config.jam
+export BOOST_BUILD_USER_CONFIG=$BOOST_HOME/user-config.jam
+
+# Download boost
+wget --quiet http://downloads.sourceforge.net/project/boost/boost/$BOOST_VERSION_DOT/boost_$BOOST_VERSION.tar.gz 
+tar xfz boost_$BOOST_VERSION.tar.gz
+
+# Build boost using the ARM cross compiler
+cd $BOOST_ROOT
+./bootstrap.sh
+./b2  --debug-configuration --with-thread  --with-system --with-program_options --with-random  --threading=single toolset=gcc-arm
+
+# Force static library linking by deleting the shared libraries
+rm stage/lib/*.so*

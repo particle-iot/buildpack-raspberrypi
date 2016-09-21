@@ -1,0 +1,24 @@
+#!/bin/bash
+# Build the ARM toolchain using the crosstool-ng toolchain builder
+#
+# To update the toolchain, run "ct-ng menuconfig" in the container to
+# generate a new .config file, update the repo with this .config file
+# and rebuild the buildpack
+
+# Exit on error
+set -e
+# Echo commands
+set -v
+
+# Build crosstool-ng
+curl -o /tmp/crosstool-ng.tar.bz2 http://crosstool-ng.org/download/crosstool-ng/crosstool-ng-1.22.0.tar.bz2
+cd /tmp
+tar xfj /tmp/crosstool-ng.tar.bz2
+cd /tmp/crosstool-ng
+./configure
+make install
+
+# Build a toolchain to /x-tools using the settings in /tmp/xtools-build/.config
+cd $XTOOLS_BUILD
+ct-ng build
+

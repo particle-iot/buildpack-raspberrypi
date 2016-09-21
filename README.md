@@ -21,6 +21,8 @@ crosstool-ng toolchain builder.
 
 **Before building this image, build or pull [buildpack-base](https://github.com/spark/buildpack-base).**
 
+**This image takes about 30 minutes to build.** Go grab a coffee :coffee:
+
 ```bash
 $ export BUILDPACK_IMAGE=raspberry-pi
 $ git clone "git@github.com:spark/buildpack-${BUILDPACK_IMAGE}.git"
@@ -59,7 +61,18 @@ After build `~/tmp/output` will be propagated with:
 
 ## Updating the toolchain
 
-To update the toolchain, install crosstool-ng on a Linux machine /
-container and run ct-ng to generate a new .config file, then rebuild
-this container
+To update the toolchain, run ct-ng to generate a new .config file, 
+update the repo with this .config file and rebuild the buildpack.
 
+```
+docker run --rm -ti particle/buildpack-raspberrypi /bin/bash
+cd /tmp
+
+cat < .config
+# Copy-paste the current .config and press Ctrl-D
+
+ct-ng menuconfig
+
+cat .config
+# Copy-paste the new config into the git repo and rebuild the container
+```
