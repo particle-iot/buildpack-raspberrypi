@@ -27,3 +27,5 @@ RUN apt-get update -q \
       && apt-get remove -qy $BUILD_PACKAGES && apt-get autoremove -qy && apt-get clean && apt-get purge \
       && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+ENTRYPOINT ["/bin/bash", "/bin/run"]
+CMD ["make"]

@@ -9,7 +9,11 @@ touch $TARGET_DIR/workspace.bin
 
 cd $FIRMWARE_PATH/main
 
-make PLATFORM=raspberrypi
+export PLATFORM=raspberrypi
+
+# Run the Docker CMD
+# Defaults to make
+$*
 
 if [ $? -eq 0 ]; then
   copy-to-output $TARGET_DIR/workspace
