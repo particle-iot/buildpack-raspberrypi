@@ -7,9 +7,9 @@ Buildpack for Particle firmware running on the Raspberry Pi.
 | |
 |---|
 | **Raspberry Pi (you are here)** |
-| [Base](https://github.com/spark/buildpack-base) |
+| [Base](https://github.com/particle-iot/buildpack-base) |
 
-This image inherits [base buildpack](https://github.com/spark/buildpack-base).
+This image inherits [base buildpack](https://github.com/particle-iot/buildpack-base).
 
 ## Overview
 
@@ -19,7 +19,7 @@ crosstool-ng toolchain builder.
 
 ## Building image
 
-**Before building this image, build or pull [buildpack-base](https://github.com/spark/buildpack-base).**
+**Before building this image, build or pull [buildpack-base](https://github.com/particle-iot/buildpack-base).**
 
 **This image takes about 45 minutes to build.** Go grab a coffee :coffee:
 
@@ -35,7 +35,7 @@ $ ./scripts/build-and-push
 ## Running
 
 ```bash
-$ git clone -b feature/raspberry-pi https://github.com/spark/firmware.git
+$ git clone -b feature/raspberry-pi https://github.com/particle-iot/firmware.git
 $ mkdir -p ~/app && mkdir -p ~/output && mkdir -p ~/cache
 $ touch ~/app/application.cpp
 $ docker run --rm \
